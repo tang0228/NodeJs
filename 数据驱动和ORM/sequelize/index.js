@@ -29,4 +29,5 @@
 // })
 
 require('./models/relation');
-require('./mock/mockStudent');
+// require('./mock/mockStudent');
+require('./spider/fetchBooks');

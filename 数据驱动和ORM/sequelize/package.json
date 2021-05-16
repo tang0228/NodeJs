@@ -12,6 +12,8 @@
     "@types/node": "^15.3.0"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.9",
     "mockjs": "^1.1.0",
     "mysql2": "^2.2.5",
     "sequelize": "^6.6.2"
