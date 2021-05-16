@@ -11,7 +11,7 @@
 
 // require('./models/sync');
 
-const adminServe = require('./services/adminService');
+// const adminServe = require('./services/adminService');
 // adminServe.addAdmin({
 //     loginId: 'abc',
 //     loginPwd: '123456',
@@ -22,8 +22,11 @@ const adminServe = require('./services/adminService');
 //     console.log(r);
 // });
 
-adminServe.updateAdmin(4, {
-    loginId: '000000',
-}).then(r => {
-    console.log(r);
-})
+// adminServe.updateAdmin(4, {
+//     loginId: '000000',
+// }).then(r => {
+//     console.log(r);
+// })
+
+require('./models/relation');
+require('./mock/mockStudent');
