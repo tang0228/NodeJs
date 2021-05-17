@@ -1,5 +1,6 @@
 const sequelize = require('./db');
 const { DataTypes } = require('sequelize');
+const moment = require('moment');
 
 module.exports = sequelize.define('Student', {
     name: {
@@ -9,6 +10,17 @@ module.exports = sequelize.define('Student', {
     birthday: {
         type: DataTypes.DATE,
         allowNull: false,
+        get() {
+            return this.getDataValue('birthday').getTime();
+        },
+    },
+    age: {
+        type: DataTypes.VIRTUAL,
+        get() {
+            const now = moment.utc();
+            const birth = moment.utc(this.birthday);
+            return now.diff(birth, 'y');
+        },
     },
     sex: {
         type: DataTypes.BOOLEAN,

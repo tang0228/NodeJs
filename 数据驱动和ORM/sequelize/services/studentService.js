@@ -103,4 +103,4 @@ exports.getStuByPage = async function (page = 1, limit = 10, sex = -1) {
         return JSON.parse(JSON.stringify(result));
     }
     return null;
-}
+};
