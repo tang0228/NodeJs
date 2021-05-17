@@ -29,4 +29,28 @@ exports.updateClass = async function (classId, classObj) {
             id: classId
         },
     });
-}
+};
+
+/**
+ * 根据id获取班级信息
+ * @param {*} id 
+ */
+exports.getClassById = async function (id) {
+    const result = await Class.findByPk(id);
+    if (result) {
+        return result.toJSON();
+    }
+    return null;
+};
+
+/**
+ * 获取所有班级信息
+ * @returns 
+ */
+exports.getAllClass = async function () {
+    const { rows, count } = await Class.findAndCountAll();
+    return {
+        count,
+        datas: JSON.parse(JSON.stringify(rows)),
+    }
+};

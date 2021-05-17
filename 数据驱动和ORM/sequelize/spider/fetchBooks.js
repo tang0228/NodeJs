@@ -33,7 +33,7 @@ async function getBookDetails(bookUrl) {
     const html = await (await axios.get(bookUrl)).data;
     const $ = cheerio.load(html);
     const name = $('h1').text().trim(); // 书本名字
-    const imgUrl = $('#mainpic a.nbg img').attr('src'); // 书本图片地址
+    const imgurl = $('#mainpic a.nbg img').attr('src'); // 书本图片地址
     const author = $('#info span:first-child a').text(); // 书本作者
     const spans = $('#info .pl');
     const publishSpan = spans.filter((i, ele) => {
@@ -42,7 +42,7 @@ async function getBookDetails(bookUrl) {
     const publishDate = publishSpan[0].nextSibling.nodeValue.trim(); // 书本的出版年
     return {
         name,
-        imgUrl,
+        imgurl,
         author,
         publishDate
     };
@@ -62,7 +62,8 @@ async function getAllBooksList() {
  */
 async function toSaveBooks() {
     const books = await getAllBooksList();
-    Book.bulkCreate(books);
+    await Book.bulkCreate(books);
+    console.log('爬取并保存数据完成');
 }
 toSaveBooks();
 

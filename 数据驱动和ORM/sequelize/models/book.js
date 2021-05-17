@@ -11,7 +11,7 @@ module.exports = sequelize.define('Book', {
         allowNull: false,
     },
     publishDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
     },
     author: {
