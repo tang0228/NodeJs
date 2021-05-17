@@ -1,7 +1,5 @@
 require('./models/relation');
-// require('./spider/fetchBooks');
-
-const stuServ = require('./services/studentService');
-stuServ.getStuByPage(1, 10, '男').then(r => {
+const adminServ = require('./services/adminService');
+adminServ.login('abc', '456').then(r => {
     console.log(r);
 })

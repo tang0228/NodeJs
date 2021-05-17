@@ -1,20 +1,13 @@
 const Admin = require('../models/admin');
+const md5 = require('md5');
+
 exports.addAdmin = async function (adminObj) {
+    adminObj.loginPwd = md5(adminObj.loginPwd);
     const ins = await Admin.create(adminObj);
     return ins.toJSON();
 };
 
 exports.deleteAdmin = async function (adminId) {
-    // 方式1
-    // 得到实例
-    // const ins = await Admin.findByPk(adminId);
-    // console.log(ins);
-    // // 删除实例
-    // if (ins) {
-    //     await ins.destroy();
-    // }
-
-    // 方式2
     const result = await Admin.destroy({
         where: {
             id: adminId
@@ -23,16 +16,10 @@ exports.deleteAdmin = async function (adminId) {
     return result;
 };
 
-
 exports.updateAdmin = async function (adminId, adminObj) {
-    // 方式1
-    // 得到实例
-    // const ins = await Admin.findByPk(adminId);
-    // ins.loginId = adminObj.loginId;
-    // 保存
-    // ins.save();
-
-    // 方式2
+    if (adminObj.loginPwd) {
+        adminObj.loginPwd = md5(adminObj.loginPwd);
+    }
     const result = await Admin.update(adminObj, {
         where: {
             id: adminId
@@ -48,13 +35,14 @@ exports.updateAdmin = async function (adminId, adminObj) {
  * @returns 
  */
 exports.login = async function (loginId, loginPwd) {
+    loginPwd = md5(loginPwd);
     const result = await Admin.findOne({
         where: {
             loginId,
             loginPwd
         },
     });
-    if (result && result.loginId === loginId && result.loginPwd === loginPwd) {
+    if (result && result.loginId === loginId) {
         return result.toJSON();
     }
     return null;
