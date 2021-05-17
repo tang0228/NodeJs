@@ -1,5 +1,14 @@
-require('./models/relation');
-const adminServ = require('./services/adminService');
-adminServ.login('abc', '456').then(r => {
-    console.log(r);
+require('./init');
+const stuSrve = require('./services/studentService');
+stuSrve.addStudent({
+    name: 'abc',
+    birthday: '2001-5-3',
+    sex: true,
+    mobile: '14797857310',
+    ClassId: '5',
+    a: 1,
+    b: 2
+}).catch(err => {
+    console.log(err);
 })
+

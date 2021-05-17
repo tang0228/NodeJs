@@ -1,34 +1,79 @@
 const Student = require('../models/student');
 const Class = require('../models/class');
+const validate = require('validate.js');
+const moment = require('moment');
+const { pick } = require('../util/propertyHelper');
 
 exports.addStudent = async function (studentObj) {
+    studentObj = pick(studentObj, 'name', 'birthday', 'sex', 'mobile', 'ClassId');
+    validate.validators.classExits = async function (value) {
+        const c = await Class.findByPk(value);
+        if (c) {
+            return;
+        }
+        return "is not exist"
+    };
+    const rule = {
+        name: {
+            presence: {
+                allowEmpty: false,
+            },
+            type: "string",
+            length: {
+                minimum: 1,
+                maximum: 10
+            }
+        },
+        birthday: {
+            presence: {
+                allowEmpty: false,
+            },
+            datetime: {
+                dateOnly: true,
+                earliest: +moment.utc().subtract(100, 'y'),
+                latest: +moment.utc().subtract(5, 'y'),
+            }
+        },
+        sex: {
+            presence: true,
+            type: 'boolean',
+        },
+        mobile: {
+            presence: {
+                allowEmpty: false,
+            },
+            format: /1\d{10}/,
+        },
+        ClassId: {
+            presence: true,
+            numericality: {
+                onlyInteger: true,
+                strict: false,
+            },
+            classExits: true,
+        }
+    }
+    await validate.async(studentObj, rule);
     const ins = await Student.create(studentObj);
     return ins.toJSON();
 };
 
 exports.deleteStudent = async function (studentId) {
-    // const ins = await Student.findByPk(studentId);
-    // if (ins) {
-    //     await ins.destroy();
-    // }
-
     const result = await Student.destroy({
         where: {
             id: studentId
         },
     });
+    return result;
 };
 
 exports.udpateStudent = async function (studentId, studentObj) {
-    // const ins = await Student.findByPk(studentId);
-    // ins.name = studentObj.name;
-    // ins.save();
-
     const result = await Student.update(studentObj, {
         where: {
             id: studentId
         },
     });
+    return result;
 };
 
 /**
