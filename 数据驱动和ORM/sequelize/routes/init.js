@@ -1,16 +1,18 @@
 const express = require('express');
 const app = express();
-app.get("/news", (req, res, next) => {
-    console.log("handler1");
-    next(new Error("abc"));
-});
+const path = require('path');
+const staticRoot = path.resolve(__dirname, '../public');
 
-app.get("/news", (req, res, next) => {
-    console.log("handler3");
-    next();
-});
+app.use(express.static(staticRoot));
 
-app.use('*', require('./errorMiddleware'));
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.json());
+
+app.post('/api/student', (req, res) => {
+    console.log(req.body);
+})
+app.use(require('./errorMiddleware'));
 
 app.listen(2000, () => {
     console.log("server listen 2000");
