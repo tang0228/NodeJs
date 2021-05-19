@@ -100,7 +100,10 @@ exports.getStuByPage = async function (page = 1, limit = 10, sex = -1) {
         limit
     });
     if (result) {
-        return JSON.parse(JSON.stringify(result));
+        return {
+            count: await Student.count(),
+            datas: JSON.parse(JSON.stringify(result)),
+        }
     }
     return null;
 };

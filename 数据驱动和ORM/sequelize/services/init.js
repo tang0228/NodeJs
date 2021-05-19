@@ -27,6 +27,5 @@ validate.extend(validate.validators.datetime, {
             format += " HH:mm:ss";
         }
         return moment.utc(value).format(format);
-
     }
 })

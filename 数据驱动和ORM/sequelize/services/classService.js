@@ -6,11 +6,6 @@ exports.addClass = async function (classObj) {
 };
 
 exports.deleteClass = async function (classId) {
-    // const ins = await Class.findByPk(classId);
-    // if (ins) {
-    //     await ins.destroy();
-    // }
-
     const result = await Class.destroy({
         where: {
             id: classId
@@ -20,15 +15,12 @@ exports.deleteClass = async function (classId) {
 };
 
 exports.updateClass = async function (classId, classObj) {
-    // const ins = await Class.findByPk(classId);
-    // ins.name = classObj.name;
-    // ins.save();
-
     const result = await Class.update(classObj, {
         where: {
             id: classId
         },
     });
+    return result;
 };
 
 /**
