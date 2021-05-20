@@ -32,7 +32,7 @@ router.delete('/:id',
 
 router.put('/:id',
     asyncHandler(async (req, res) => {
-        return await studentServ.udpateStudent(req.params.id, req.body);
+        return await studentServ.updateStudent(req.params.id, req.body);
     })
 );
 

@@ -7,7 +7,7 @@ const Book = require('../models/book');
  * @returns 
  */
 async function getBooksHtml() {
-    const resp = await (await axios.get('https://book.douban.com/latest'));
+    const resp = await (await axios.get('https://book.douban.com/latest?icn=index-latestbook-all'));
     return resp.data;
 }
 
@@ -34,7 +34,7 @@ async function getBookDetails(bookUrl) {
     const $ = cheerio.load(html);
     const name = $('h1').text().trim(); // 书本名字
     const imgurl = $('#mainpic a.nbg img').attr('src'); // 书本图片地址
-    const author = $('#info span:first-child a').text(); // 书本作者
+    const author = $('#info span:first-child a').text().slice(0, 8); // 书本作者
     const spans = $('#info .pl');
     const publishSpan = spans.filter((i, ele) => {
         return $(ele).text().includes('出版年');

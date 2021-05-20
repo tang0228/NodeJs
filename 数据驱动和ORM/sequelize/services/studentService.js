@@ -67,7 +67,7 @@ exports.deleteStudent = async function (studentId) {
     return result;
 };
 
-exports.udpateStudent = async function (studentId, studentObj) {
+exports.updateStudent = async function (studentId, studentObj) {
     const result = await Student.update(studentObj, {
         where: {
             id: studentId

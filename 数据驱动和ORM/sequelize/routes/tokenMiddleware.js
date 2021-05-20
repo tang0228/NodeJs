@@ -1,10 +1,11 @@
 const { getErr } = require('./getSendResult');
 const { pathToRegexp } = require('path-to-regexp');
-const crypt = require('../util/crypt');
+const jwt = require('../routes/jwt');
 // token中间件
 const needTokenApi = [
     { method: "POST", path: "/api/student" },
     { method: "PUT", path: "/api/student/:id" },
+    { method: "GET", path: "/api/admin/whoami" },
 ];
 module.exports = (req, res, next) => {
     const apis = needTokenApi.filter(api => {
@@ -15,11 +16,13 @@ module.exports = (req, res, next) => {
         next();
         return;
     }
-    if (req.session.loginUser) {
-        // 已经登录过了
+    const result = jwt.verify(req);
+    if (result) {
+        // 认证通过
+        req.userId = result.id;
         next();
     } else {
-        // 未登录
+        // 未通过认证
         hanleNonToken(req, res, next);
     }
 };
