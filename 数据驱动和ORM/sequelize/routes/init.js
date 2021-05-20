@@ -2,8 +2,22 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const staticRoot = path.resolve(__dirname, '../public');
+const cors = require('cors');
 // 映射public目录中的静态资源
 app.use(express.static(staticRoot));
+
+const whiteList = ["null"];
+// 加入cors中间件
+app.use(cors({
+    origin(origin, callback) {
+        if (whiteList.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("not allow"));
+        }
+    },
+    credentials: true,
+}));
 
 // 加入cookie-parser中间件
 // req会加入cookies属性，用于获取请求传来的cookie
