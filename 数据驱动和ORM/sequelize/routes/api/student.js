@@ -4,12 +4,15 @@ const studentServ = require('../../services/studentService');
 const { asyncHandler } = require('../getSendResult');
 
 router.get('/',
-    asyncHandler(async (req, res) => {
+    async (req, res) => {
         const page = req.query.page || 1;
         const limit = req.query.limit || 10;
         const sex = req.query.sex || -1;
-        return await studentServ.getStuByPage(page, limit, sex);
-    })
+        const result = await studentServ.getStuByPage(page, limit, sex);
+        const json = JSON.stringify(result);
+        const script = `callback(${json})`;
+        res.header('content-type', 'application/javascript').send(script);
+    }
 );
 
 router.get('/:id',
