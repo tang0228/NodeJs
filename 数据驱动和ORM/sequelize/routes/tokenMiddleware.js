@@ -3,8 +3,8 @@ const { pathToRegexp } = require('path-to-regexp');
 const crypt = require('../util/crypt');
 // token中间件
 const needTokenApi = [
-    { method: "POST", path: "/api/studnet" },
-    { method: "PUT", path: "/api/studnet/:id" },
+    { method: "POST", path: "/api/student" },
+    { method: "PUT", path: "/api/student/:id" },
 ];
 module.exports = (req, res, next) => {
     const apis = needTokenApi.filter(api => {
@@ -15,21 +15,13 @@ module.exports = (req, res, next) => {
         next();
         return;
     }
-    // 浏览器
-    let token = req.cookies.token;
-    // 其它终端
-    if (!token) {
-        token = req.headers.authorization;
-    }
-    if (!token) {
-        // 没有token
+    if (req.session.loginUser) {
+        // 已经登录过了
+        next();
+    } else {
+        // 未登录
         hanleNonToken(req, res, next);
-        return;
     }
-    // 验证通过
-    const userId = crypt.decryto(token);
-    req.userId = userId;
-    next();
 };
 
 function hanleNonToken(req, res, next) {

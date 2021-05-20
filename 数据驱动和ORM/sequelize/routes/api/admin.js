@@ -29,14 +29,8 @@ router.post('/login', asyncHandler(async (req, res) => {
     if (result) {
         let value = result.id;
         value = crypt.encrypto(value.toString());
-        // 适配浏览器
-        res.cookie("token", value, {
-            path: '/',
-            domain: "localhost",
-            maxAge: 7 * 24 * 3600 * 1000
-        });
-        // 适配其它终端
-        res.header("authorization", value);
+        // 登录成功
+        req.session.loginUser = result;
     };
     return result;
 }));

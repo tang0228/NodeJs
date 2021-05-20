@@ -3,10 +3,18 @@ const app = express();
 const path = require('path');
 const staticRoot = path.resolve(__dirname, '../public');
 const cors = require('cors');
+
+const session = require('express-session');
+
+// 加入session中间件
+app.use(session({
+    secret: "tyq",
+    name: 'sessionid'
+}));
 // 映射public目录中的静态资源
 app.use(express.static(staticRoot));
 
-const whiteList = ["null"];
+const whiteList = ["null", "http://localhost:2000"];
 // 加入cors中间件
 app.use(cors({
     origin(origin, callback) {
