@@ -4,22 +4,20 @@ const path = require('path');
 const staticRoot = path.resolve(__dirname, '../public');
 const cors = require('cors');
 
+const history = require('connect-history-api-fallback');
+app.use(history());
+
 // 映射public目录中的静态资源
 app.use(express.static(staticRoot));
 
-const whiteList = ["null", "http://localhost:2000"];
 // 加入cors中间件
 app.use(cors({
     origin(origin, callback) {
         if (!origin) {
-            callback(null, origin);
+            callback(null, "*");
             return;
         }
-        if (whiteList.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("not allow"));
-        }
+        callback(null, origin);
     },
     credentials: true,
 }));
