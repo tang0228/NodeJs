@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a resrole="thunder" href="/res/back.png">下载</a>
+
+    <script>
+        const a = document.querySelector("a[resrole=thunder]");
+        let thunder = `AA${a.href}ZZ`;
+        thunder = btoa(thunder);
+        thunder = "thunder://" + thunder;
+        a.href = thunder;
+    </script>
+</body>
+
+</html>

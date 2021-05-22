@@ -43,6 +43,10 @@ app.use('/api/class', require('./api/class'));
 app.use('/api/admin', require('./api/admin'));
 app.use('/api/upload', require('./api/upload'));
 
+// 下载文件的中间件
+app.use('/res', require('./api/download'));
+
+
 
 // 处理错误的中间件
 app.use(require('./errorMiddleware'));
