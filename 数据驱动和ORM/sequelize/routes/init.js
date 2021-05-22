@@ -41,6 +41,8 @@ app.use(require('./apiLogMiddle'));
 app.use('/api/student', require('./api/student'));
 app.use('/api/class', require('./api/class'));
 app.use('/api/admin', require('./api/admin'));
+app.use('/api/upload', require('./api/upload'));
+
 
 // 处理错误的中间件
 app.use(require('./errorMiddleware'));
