@@ -9,6 +9,11 @@ app.use(require("./imgProtectMid"));
 // const history = require('connect-history-api-fallback');
 // app.use(history());
 
+// 加入session中间件
+app.use(require("express-session")({
+    secret: "tangyuanqing"
+}));
+
 // 映射public目录中的静态资源
 app.use(express.static(staticRoot));
 
@@ -41,6 +46,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(require('./apiLogMiddle'));
+
+// 加入验证码中间件
+app.use(require("./captchaMiddle"));
 
 // 处理api请求
 app.use('/api/student', require('./api/student'));

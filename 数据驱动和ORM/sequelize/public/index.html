@@ -1,12 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <img src="./img/water.png" alt="">
+    <p>
+        账号：<input type="text" id="loginId">
+    </p>
+    <p>
+        密码：<input type="password" id="loginPwd">
+    </p>
+    <p id="captchaArea" style="display: none;">
+        验证码：<input type="text" id="captcha">
+        <img src="/captcha" alt="" id="img">
+    </p>
+    <p>
+        <button>登录</button>
+    </p>
+    <script>
+
+        function refreshCaptcha() {
+            img.src = `/captcha?ran=${Math.random()}`
+        }
+
+        img.onclick = refreshCaptcha;
+        document.querySelector("button").onclick = async function () {
+            const body = {
+                loginId: loginId.value,
+                loginPwd: loginPwd.value
+            };
+
+            if (captchaArea.style.display !== "none") {
+                body.captcha = captcha.value;
+            }
+
+            const res = await fetch("/api/admin/login", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify(body)
+            }).then(resp => resp.json());
+            if (res.code === 401) {
+                console.log("验证码错误");
+                captchaArea.style.display = "block";
+                refreshCaptcha();
+            }
+            else if (res.data) {
+                console.log("登录成功");
+            } else {
+                console.log("登录失败");
+            }
+        }
+    </script>
 </body>
+
 </html>
