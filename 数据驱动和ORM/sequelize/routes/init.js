@@ -24,6 +24,9 @@ app.use(cors({
     credentials: true,
 }));
 
+// 加入代理中间件
+app.use(require("./proxyMiddle"));
+
 // 加入cookie-parser中间件
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
