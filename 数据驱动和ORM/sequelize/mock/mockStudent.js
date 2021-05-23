@@ -11,6 +11,4 @@ const result = Mock.mock({
     }]
 }).datas;
 
-
 Student.bulkCreate(result);
-console.log(result);

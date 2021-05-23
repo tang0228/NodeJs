@@ -4,8 +4,10 @@ const path = require('path');
 const staticRoot = path.resolve(__dirname, '../public');
 const cors = require('cors');
 
-const history = require('connect-history-api-fallback');
-app.use(history());
+// 添加防盗链中间件
+app.use(require("./imgProtectMid"));
+// const history = require('connect-history-api-fallback');
+// app.use(history());
 
 // 映射public目录中的静态资源
 app.use(express.static(staticRoot));

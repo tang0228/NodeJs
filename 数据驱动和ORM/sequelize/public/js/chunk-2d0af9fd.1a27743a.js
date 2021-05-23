@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0af9fd"],{"0eb4":function(e,t,n){"use strict";n.r(t);var a=function(){var e=this,t=e.$createElement;e._self._c;return e._m(0)},c=[function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticClass:"about"},[n("h1",[e._v("这是受保护的页面，登录才可以访问")])])}],s={},u=s,l=n("2877"),r=Object(l["a"])(u,a,c,!1,null,null,null);t["default"]=r.exports}}]);
-//# sourceMappingURL=chunk-2d0af9fd.1a27743a.js.map
