@@ -54,6 +54,7 @@ app.use(require("./captchaMiddle"));
 app.use('/api/student', require('./api/student'));
 app.use('/api/class', require('./api/class'));
 app.use('/api/admin', require('./api/admin'));
+app.use('/api/book', require('./api/book'));
 app.use('/api/upload', require('./api/upload'));
 
 // 下载文件的中间件

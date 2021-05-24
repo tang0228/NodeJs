@@ -9,48 +9,21 @@
 </head>
 
 <body>
-    <p>
-        <input type="text" name="a">
-    </p>
-    <p>
-        <input type="file" name="img" multiple accept="image/*">
-    </p>
-    <p>
-        <button>提交</button>
-    </p>
-    <img src="" alt="">
-
     <script>
-        function upload() {
-            const inpA = document.querySelector("[name=a]");
-            const inpFile = document.querySelector("[name=img]");
-            const img = document.querySelector("img");
-
-            const formData = new FormData();
-
-            formData.append("a", inpA.value);
-            for (const file of inpFile.files) {
-                formData.append("img", file, file.name);
+        fetch("/api/book/163", {
+            method: "GET",
+            headers: {
+                "content-type": "application/json",
             }
-
-            const headers = {
-                body: formData,
-                method: "POST"
-            };
-
-            fetch("/api/upload", headers).then(resp => resp.json()).then(resp => {
-                if (resp.code) {
-                    alert(resp.msg);
-                } else {
-                    img.src = resp.data;
-                }
-            })
-
-        }
-
-
-
-        document.querySelector("button").onclick = upload;
+        }).then(resp => resp.json()).then(resp => {
+            document.querySelector("body").innerHTML = `
+                <h1>${resp.data.name}</h1>
+                <div>
+                    ${resp.data.description}
+                </div>
+            `
+            console.log(resp);
+        })
     </script>
 </body>
 

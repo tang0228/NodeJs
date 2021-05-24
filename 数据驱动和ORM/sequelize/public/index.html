@@ -8,56 +8,59 @@
     <title>Document</title>
 </head>
 
+
 <body>
     <p>
-        账号：<input type="text" id="loginId">
+        书名：<input type="text" id="name">
     </p>
-    <p>
-        密码：<input type="password" id="loginPwd">
-    </p>
-    <p id="captchaArea" style="display: none;">
-        验证码：<input type="text" id="captcha">
-        <img src="/captcha" alt="" id="img">
-    </p>
-    <p>
-        <button>登录</button>
-    </p>
-    <script>
+    <div>
+        <div id="editor">
 
-        function refreshCaptcha() {
-            img.src = `/captcha?ran=${Math.random()}`
+        </div>
+    </div>
+    <p>
+        <button>提交</button>
+    </p>
+
+    <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
+
+    <script>
+        const E = window.wangEditor
+        const editor = new E("#editor")
+        editor.config.uploadImgServer = '/api/upload'
+        editor.config.uploadFileName = 'img'
+        editor.config.uploadImgHooks = {
+            customInsert: function (insertImgFn, result) {
+                insertImgFn(result.data)
+            }
+        }
+        editor.create()
+
+        function $(selector) {
+            return document.querySelector(selector);
         }
 
-        img.onclick = refreshCaptcha;
-        document.querySelector("button").onclick = async function () {
-            const body = {
-                loginId: loginId.value,
-                loginPwd: loginPwd.value
-            };
-
-            if (captchaArea.style.display !== "none") {
-                body.captcha = captcha.value;
-            }
-
-            const res = await fetch("/api/admin/login", {
+        async function addBook() {
+            const name = $("input").value;
+            const description = editor.txt.html();
+            const resp = await fetch("/api/book", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                 },
-                body: JSON.stringify(body)
-            }).then(resp => resp.json());
-            if (res.code === 401) {
-                console.log("验证码错误");
-                captchaArea.style.display = "block";
-                refreshCaptcha();
-            }
-            else if (res.data) {
-                console.log("登录成功");
-            } else {
-                console.log("登录失败");
-            }
+                body: JSON.stringify({
+                    name,
+                    description,
+                    author: "tyq",
+                    publishDate: "2001-1-1",
+                })
+            }).then(res => res.json());
+            console.log(resp);
+
         }
+        $("button").onclick = addBook;
     </script>
+
 </body>
 
 </html>
