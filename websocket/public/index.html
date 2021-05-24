@@ -10,24 +10,21 @@
 
 <body>
     <button>发送数据</button>
+    <script src="https://cdn.bootcdn.net/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <script>
-        const ws = new WebSocket("ws://localhost:2000")
-
-        ws.onopen = function () {
-            console.log("客户端连接");
-        }
-
-        ws.onmessage = function (e) {
-            console.log("来自服务器的数据", e.data);
-        }
-
-        ws.onclose = function () {
-            console.log("断开连接");
-        }
-
+        const socket = io.connect();
         document.querySelector("button").onclick = function () {
-            ws.send("123");
-        }
+            socket.emit("msg", "this msg is from client");
+        };
+
+        socket.on("test", chunk => {
+            console.log(chunk);
+        });
+
+        socket.on("disconnect", () => {
+            console.log("closed");
+        })
+
     </script>
 </body>
 
